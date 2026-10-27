@@ -28,11 +28,12 @@ class ResumeSubsection:
 
         return include_subsection
 
-    def get_title(self) -> str | None:
+    def get_title(self) -> str:
         if "Title" in self.data:
             return self.data["Title"]
 
-        return None
+        # Fall back to the subsection's key
+        return self.key
 
     def get_subtitle(self) -> str | None:
         if "Subtitle" in self.data:

@@ -9,11 +9,12 @@ class ResumeSection:
         self.key = key
         self.data = data
 
-    def get_title(self) -> str | None:
+    def get_title(self) -> str:
         if "Title" in self.data:
             return self.data["Title"]
 
-        return None
+        # Fall back to the section's key
+        return self.key
 
     def get_description(self) -> str | list[str] | None:
         if "Description" in self.data:
