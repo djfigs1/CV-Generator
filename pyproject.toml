@@ -6,5 +6,5 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pylatex==1.4.2",
-    "pyyaml==6.0.2",
+    "pyyaml==6.0.3",
 ]
