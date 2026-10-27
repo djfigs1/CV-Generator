@@ -5,12 +5,12 @@
 \RequirePackage{etoolbox}
 \RequirePackage{enumitem}
 
-% Define spacing in-between bullet points
-\setitemize{itemsep=0pt}
+% Define spacing in-between bullet points (itemsep/parsep) and around each list (topsep/partopsep)
+\setitemize{itemsep=0pt, parsep=0pt, topsep=2pt, partopsep=0pt}
 
 % Set title spacing
 \titlespacing*{\section}
-{0pt}{16pt}{3pt}
+{0pt}{8pt}{3pt}
 \titlespacing*{\subsection}
 {0pt}{1pt}{3pt}
 
