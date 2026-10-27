@@ -1,3 +1,5 @@
+import os
+
 from pylatex import Document, Command, Section, Subsection
 
 from builder.me import MeFile
@@ -6,10 +8,25 @@ from latex.dated_subsection import DatedSubsection
 from latex.description import create_bullets, create_description
 from recipe.recipe import ResumeRecipe
 
+# Directory containing cv.cls
+CLASS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def generate_pdf(me: MeFile, path: str, recipe: ResumeRecipe, tex_path: None | str = None):
     doc = create_document(me, recipe)
-    doc.generate_pdf(path, compiler="pdflatex", compiler_args=["-include-directory=.."])
+
+    # pdflatex runs from the output directory, so add the class directory to the TeX search path.
+    # The trailing separator keeps the default search paths.
+    old_texinputs = os.environ.get("TEXINPUTS")
+    os.environ["TEXINPUTS"] = CLASS_DIR + os.pathsep + (old_texinputs or "")
+    try:
+        doc.generate_pdf(path, compiler="pdflatex")
+    finally:
+        if old_texinputs is None:
+            del os.environ["TEXINPUTS"]
+        else:
+            os.environ["TEXINPUTS"] = old_texinputs
+
     if tex_path is not None:
         doc.generate_tex(tex_path)
 
