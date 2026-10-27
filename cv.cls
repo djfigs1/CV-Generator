@@ -1,5 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{cv}[DJs CV Class]
+
+% The fill option stretches the space above sections and subsections so a
+% single-page resume reaches the bottom of the page
+\newif\if@cvfill
+\DeclareOption{fill}{\@cvfilltrue}
+\ProcessOptions\relax
+
 \LoadClass{article}
 \RequirePackage{titlesec}
 \RequirePackage{etoolbox}
@@ -8,11 +15,21 @@
 % Define spacing in-between bullet points (itemsep/parsep) and around each list (topsep/partopsep)
 \setitemize{itemsep=0pt, parsep=0pt, topsep=2pt, partopsep=0pt}
 
-% Set title spacing
-\titlespacing*{\section}
-{0pt}{8pt}{3pt}
-\titlespacing*{\subsection}
-{0pt}{1pt}{3pt}
+% Set title spacing. fill glue outranks the fil glue LaTeX adds at the end of
+% the last page, so it takes up all of the leftover space. The subsection's
+% natural space must exceed the list topsep (2pt), or \addvspace keeps the
+% topsep and drops the stretch.
+\if@cvfill
+  \titlespacing*{\section}
+  {0pt}{8pt plus 2fill}{3pt}
+  \titlespacing*{\subsection}
+  {0pt}{3pt plus 1fill}{3pt}
+\else
+  \titlespacing*{\section}
+  {0pt}{8pt}{3pt}
+  \titlespacing*{\subsection}
+  {0pt}{1pt}{3pt}
+\fi
 
 \setlength{\parskip}{0.0em} % Adjusts the space between paragraphs
 

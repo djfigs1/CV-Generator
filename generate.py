@@ -12,8 +12,9 @@ from recipe.recipe import ResumeRecipe
 CLASS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def generate_pdf(me: MeFile, path: str, recipe: ResumeRecipe, tex_path: None | str = None):
-    doc = create_document(me, recipe)
+def generate_pdf(me: MeFile, path: str, recipe: ResumeRecipe, tex_path: None | str = None,
+                 fill_page: bool = False):
+    doc = create_document(me, recipe, fill_page=fill_page)
 
     # pdflatex runs from the output directory, so add the class directory to the TeX search path.
     # The trailing separator keeps the default search paths.
@@ -46,8 +47,9 @@ def create_subsection(doc: Document, subsection: ResumeSubsection):
         create_description(doc, desc)
 
 
-def create_document(me: MeFile, recipe: ResumeRecipe, margin: str = "0.3in") -> Document:
-    doc = Document(documentclass="cv", geometry_options={"margin": margin})
+def create_document(me: MeFile, recipe: ResumeRecipe, margin: str = "0.3in", fill_page: bool = False) -> Document:
+    document_options = ["fill"] if fill_page else None
+    doc = Document(documentclass="cv", document_options=document_options, geometry_options={"margin": margin})
 
     # Add name/contact information
     doc.append(Command("name", me.get_name()))

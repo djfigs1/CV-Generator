@@ -29,6 +29,8 @@ def main():
                                  help="outputs a .tex file")
     generate_parser.add_argument("-o", "--output-file", default="./resume", action="store", dest="pdf_path",
                                  help="outputs a .pdf file (default: ./resume.pdf)")
+    generate_parser.add_argument("-f", "--fill-page", action="store_true", dest="fill_page",
+                                 help="stretch spacing so a one-page resume fills the page")
 
     # Parse arguments
     args = parser.parse_args()
@@ -67,7 +69,7 @@ def main():
         tex_path = tex_path[:-4]
 
     me_file = read_me_file(path=me_path)
-    generate_pdf(me_file, pdf_path, recipe, tex_path)
+    generate_pdf(me_file, pdf_path, recipe, tex_path, fill_page=args.fill_page)
 
 
 if __name__ == "__main__":
