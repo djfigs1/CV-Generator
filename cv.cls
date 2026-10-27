@@ -6,13 +6,15 @@
 \RequirePackage{enumitem}
 
 % Define spacing in-between bullet points
-\setitemize{itemsep=-4.0pt}
+\setitemize{itemsep=0pt}
 
 % Set title spacing
 \titlespacing*{\section}
-{0pt}{1pt}{3pt}
+{0pt}{16pt}{3pt}
 \titlespacing*{\subsection}
 {0pt}{1pt}{3pt}
+
+\setlength{\parskip}{0.0em} % Adjusts the space between paragraphs
 
 \titleformat{\section}         % Customise the \section command
   {\scshape\raggedright\bfseries} % Make the \section headers large (\Large),
