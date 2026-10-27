@@ -1,4 +1,7 @@
 import argparse
+import os
+import sys
+
 from builder.me import read_me_file
 from generate import generate_pdf
 from recipe.recipe import ResumeRecipe
@@ -7,27 +10,38 @@ from recipe.recipe import ResumeRecipe
 def main():
     # Create and configure argparser
     parser = argparse.ArgumentParser(description="A utility that creates my resume.")
-    parser.add_argument("-m", "--builder-file", help="path to builder file", dest="me_file", action="store",
-                        default="./me.yaml")
-    parser.add_argument("-iT", "--include-tags", help="include tags in resume", dest="include_tags")
-    parser.add_argument("-i", "--include-items", action="store", type=str, help="include items in resume",
-                        dest="include_items")
-    parser.add_argument("-eI", "--exclude-items", action="store", type=str, default="", help="exclude tags from resume",
-                        dest="exclude_items")
-    parser.add_argument("-eT", "--exclude-tags", action="store", type=str, default="", help="exclude tags from resume",
-                        dest="exclude_tags")
-    parser.add_argument("-eC", "--exclude-contact", action="store", type=str, default="",
-                        help="exclude contact info from resume", dest="exclude_contact")
-    parser.add_argument("-r", "--recipe-file", help="create resume from recipe file")
-    parser.add_argument("-t", "--output-tex", action="store", dest="tex_path", default=None, help="outputs a .tex file")
-    parser.add_argument("-o", "--output-file", default="./resume", action="store", dest="pdf_path",
-                        help="outputs a .tex file")
+    subparsers = parser.add_subparsers(dest="command", title="commands")
+
+    generate_parser = subparsers.add_parser("generate", help="generate a resume PDF from a resume YAML file",
+                                            description="Generate a resume PDF from a resume YAML file.")
+    generate_parser.add_argument("me_file", metavar="RESUME_FILE", help="path to resume YAML file")
+    generate_parser.add_argument("-iT", "--include-tags", help="include tags in resume", dest="include_tags")
+    generate_parser.add_argument("-i", "--include-items", action="store", type=str, help="include items in resume",
+                                 dest="include_items")
+    generate_parser.add_argument("-eI", "--exclude-items", action="store", type=str, default="",
+                                 help="exclude items from resume", dest="exclude_items")
+    generate_parser.add_argument("-eT", "--exclude-tags", action="store", type=str, default="",
+                                 help="exclude tags from resume", dest="exclude_tags")
+    generate_parser.add_argument("-eC", "--exclude-contact", action="store", type=str, default="",
+                                 help="exclude contact info from resume", dest="exclude_contact")
+    generate_parser.add_argument("-r", "--recipe-file", help="create resume from recipe file")
+    generate_parser.add_argument("-t", "--output-tex", action="store", dest="tex_path", default=None,
+                                 help="outputs a .tex file")
+    generate_parser.add_argument("-o", "--output-file", default="./resume", action="store", dest="pdf_path",
+                                 help="outputs a .pdf file (default: ./resume.pdf)")
 
     # Parse arguments
     args = parser.parse_args()
 
+    # Show help when no command is given
+    if args.command is None:
+        parser.print_help()
+        sys.exit(1)
+
     # Parse path information
     me_path = args.me_file
+    if not os.path.isfile(me_path):
+        generate_parser.error(f"resume file not found: {me_path}")
     pdf_path = args.pdf_path
     # Remove unnecessary .pdf extension
     if pdf_path.endswith(".pdf"):

@@ -69,12 +69,12 @@ Sections:
 
 You can generate this example resume using the command:
 ```
-uv run sastre.py -m demo.yaml -o demo.pdf
+uv run sastre.py generate demo.yaml -o demo.pdf
 ```
 
 ## sastre.py
 
-You can view a list of arguments using the command:
+Running `sastre.py` with no command shows the available commands. You can view the arguments for `generate` using the command:
 ```
-uv run sastre.py --help
+uv run sastre.py generate --help
 ```
