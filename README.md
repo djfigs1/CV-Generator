@@ -1,6 +1,13 @@
 # CV
 An automatic resume builder for me!
 
+## Setup
+This project uses [uv](https://docs.astral.sh/uv/). A LaTeX distribution providing `pdflatex` must also be installed.
+
+```bash
+uv sync
+```
+
 ## me.yaml format
 The `me.yaml` file contains all of your information and experiences that can be put in your resume. The file is structured as follows:
 
@@ -62,12 +69,12 @@ Sections:
 
 You can generate this example resume using the command:
 ```
-py generate.py -m demo.yaml -o demo.pdf
+uv run sastre.py -m demo.yaml -o demo.pdf
 ```
 
-## generate.py
+## sastre.py
 
 You can view a list of arguments using the command:
 ```
-py generate.py --help
+uv run sastre.py --help
 ```

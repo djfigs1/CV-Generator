@@ -1,0 +1,10 @@
+[project]
+name = "cv-generator"
+version = "0.1.0"
+description = "An automatic resume builder"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pylatex==1.4.2",
+    "pyyaml==6.0.2",
+]
